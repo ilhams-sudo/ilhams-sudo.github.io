@@ -1,40 +1,19 @@
+
 function generateNBA() {
     var input = document.getElementById("input").value;
-    var lines = input.split(/\r?\n|\r/); // Membagi input berdasarkan baris baru atau baris
+    var lines = input.split(/\r?\n|\r/);
     var output = "";
     lines.forEach(function(line) {
         var parts = line.split(".");
         if (parts.length === 4) {
-            var dcName = "";
-            if (parts[0] === "10") {
-                if (parts[1] === "13") {
-                    dcName = "B1A";
-                } else if (parts[1] === "14") {
-                    dcName = "B2A";
-                } else if (parts[1] === "15") {
-                    dcName = "B3A";
-                } else if (parts[1] === "19") {
-                    dcName = "B1B";
-                } else if (parts[1] === "20") {
-                    dcName = "B2B";
-                } else if (parts[1] === "21") {
-                    dcName = "B3B";
-                } else {
-                    output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
-                    return;
-                }
-            } else {
+            var dcName = getDcName(parts[1]);
+            if (dcName === null) {
                 output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
                 return;
             }
-            var rack = "";
-            if (parts[2] === "1") {
-                rack = "A";
-            } else if (parts[2] === "2") {
-                rack = "B";
-            } else if (parts[2] === "3") {
-                rack = "C";
-            } else {
+
+            var rack = getRack(parts[2]);
+            if (rack === null) {
                 output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
                 return;
             }
@@ -42,11 +21,11 @@ function generateNBA() {
             // Memodifikasi bagian W sesuai dengan panjangnya
             var wParts = "";
             if (parts[3].length === 3) {
-                wParts = parts[3].substring(0, 2) + "." + parts[3].substring(2); // Jika W adalah 3 digit
+                wParts = parts[3].substring(0, 2) + "." + parts[3].substring(2);
             } else if (parts[3].length === 2) {
-                wParts = parts[3][0] + "." + parts[3][1]; // Jika W adalah 2 digit
+                wParts = parts[3][0] + "." + parts[3][1];
             } else if (parts[3].length === 1) {
-                wParts = "0." + parts[3]; // Jika W adalah 1 digit, tambahkan "0." di depannya
+                wParts = "0." + parts[3];
             }
 
             var nbaCode = "NBA." + dcName + "." + rack + "." + wParts + "\n";
@@ -55,7 +34,7 @@ function generateNBA() {
             output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
         }
     });
-    document.getElementById("output").textContent = output; // Gunakan textContent untuk menghindari pemformatan HTML
+    document.getElementById("output").textContent = output;
 }
 
 function copyOutput() {
