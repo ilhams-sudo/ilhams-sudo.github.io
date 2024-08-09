@@ -48,7 +48,11 @@ function getDcName(dcPart) {
             return "B5B";
         case "24":
             return "B6B";
+        // Tambahkan case lain sesuai kebutuhan...
         default:
+            if (dcPart >= 83 && dcPart <= 91) {
+                return "F";
+            }
             return null;
     }
 }
