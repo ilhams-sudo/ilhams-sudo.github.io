@@ -51,6 +51,8 @@ function getDcName(dcPart) {
         // Tambahkan case lain sesuai kebutuhan...
         default:
             if (dcPart >= 83 && dcPart <= 91) {
+                return "E";
+            } else if (dcPart >= 92 && dcPart <= 100) {
                 return "F";
             }
             return null;
