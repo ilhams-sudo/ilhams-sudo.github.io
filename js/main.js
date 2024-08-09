@@ -5,20 +5,20 @@ function generateNBA() {
     lines.forEach(function(line) {
         var parts = line.split(".");
         if (parts.length === 4) {
-            var category = "";
+            var dcName = "";
             if (parts[0] === "10") {
                 if (parts[1] === "13") {
-                    category = "B1A";
+                    dcName = "B1A";
                 } else if (parts[1] === "14") {
-                    category = "B2A";
+                    dcName = "B2A";
                 } else if (parts[1] === "15") {
-                    category = "B3A";
+                    dcName = "B3A";
                 } else if (parts[1] === "19") {
-                    category = "B1B";
+                    dcName = "B1B";
                 } else if (parts[1] === "20") {
-                    category = "B2B";
+                    dcName = "B2B";
                 } else if (parts[1] === "21") {
-                    category = "B3B";
+                    dcName = "B3B";
                 } else {
                     output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
                     return;
@@ -27,13 +27,13 @@ function generateNBA() {
                 output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
                 return;
             }
-            var section = "";
+            var rack = "";
             if (parts[2] === "1") {
-                section = "A";
+                rack = "A";
             } else if (parts[2] === "2") {
-                section = "B";
+                rack = "B";
             } else if (parts[2] === "3") {
-                section = "C";
+                rack = "C";
             } else {
                 output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
                 return;
@@ -49,7 +49,7 @@ function generateNBA() {
                 wParts = "0." + parts[3]; // Jika W adalah 1 digit, tambahkan "0." di depannya
             }
 
-            var nbaCode = "NBA." + category + "." + section + "." + wParts + "\n";
+            var nbaCode = "NBA." + dcName + "." + rack + "." + wParts + "\n";
             output += nbaCode;
         } else {
             output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
