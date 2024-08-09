@@ -1,5 +1,7 @@
 function getDcName(dcPart) {
     switch(dcPart) {
+        case "1":
+            return "A1A";
         case "13":
             return "B1A";
         case "14":
