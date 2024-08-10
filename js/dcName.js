@@ -92,8 +92,53 @@ function getDcName(dcPart) {
             return "D4B";
         case "46":
             return "D5B";
+        // Cakung2 dcName
+        case "47":
+            return "C7A";
+        case "48":
+            return "C8A";
+        case "49":
+            return "C9A";
+        case "50":
+            return "C10A";
+        case "51":
+            return "C7B";
+        case "52":
+            return "C8B";
+        case "53":
+            return "C9B";
+        case "54":
+            return "C10B";
+        case "55":
+            return "D6A";
+        case "56":
+            return "D7A";
+        case "57":
+            return "D8A";
+        case "58":
+            return "D9A";
+        case "59":
+            return "D6B";
+        case "60":
+            return "D7B";
+        case "61":
+            return "D8B";
+        case "62":
+            return "D9B";
+        case "63":
+            return "E2A";
+        case "64":
+            return "E3A";
+        case "65":
+            return "E4A";
+        case "66":
+            return "E2B";
+        case "67":
+            return "E3B";
+        case "68":
+            return "E4B";
             
-        // Tambahkan case lain sesuai kebutuhan...
+        // SH-E dan SH-F
         default:
             if (dcPart >= 83 && dcPart <= 91) {
                 return "E";
