@@ -48,6 +48,31 @@ function getDcName(dcPart) {
             return "B5B";
         case "24":
             return "B6B";
+        case "25":
+            return "C1A";
+        case "26":
+            return "C2A";
+        case "27":
+            return "C3A";
+        case "28":
+            return "C4A";
+        case "29":
+            return "C5A";
+        case "30":
+            return "C6A";
+        case "31":
+            return "C1B";
+        case "32":
+            return "C2B";
+        case "33":
+            return "C3B";
+        case "34":
+            return "C4B";
+        case "35":
+            return "C5B";
+        case "36":
+            return "C6B";
+            
         // Tambahkan case lain sesuai kebutuhan...
         default:
             if (dcPart >= 83 && dcPart <= 91) {
