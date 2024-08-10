@@ -79,3 +79,17 @@
             font-size: 14px;
             word-wrap: break-word;
         }
+/* Add this to your existing CSS */
+
+.credit {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+}
+
+.credit p {
+    margin: 0;
+    padding: 10px 0;
+}
+10
