@@ -72,6 +72,26 @@ function getDcName(dcPart) {
             return "C5B";
         case "36":
             return "C6B";
+        case "37":
+            return "D1A";
+        case "38":
+            return "D2A";
+        case "39":
+            return "D3A";
+        case "40":
+            return "D4A";
+        case "41":
+            return "D5A";
+        case "42":
+            return "D1B";
+        case "43":
+            return "D2B";
+        case "44":
+            return "D3B";
+        case "45":
+            return "D4B";
+        case "46":
+            return "D5B";
             
         // Tambahkan case lain sesuai kebutuhan...
         default:
