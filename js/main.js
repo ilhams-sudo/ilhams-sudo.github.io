@@ -1,3 +1,5 @@
+// Array untuk menyimpan pengecualian Cakung2
+const nba2Exceptions = ["C7A", "C8A", "C9A", "C10A", "C7B", "C8B", "C9B", "C10B", "D6A", "D7A", "D8A", "D9A", "D6B", "D7B", "D8B", "D9B", "E2A", "E3A", "E4A", "E2B", "E3B", "E4B"];
 
 function generateNBA() {
     var input = document.getElementById("input").value;
@@ -28,7 +30,10 @@ function generateNBA() {
                 wParts = "0." + parts[3];
             }
 
-            var nbaCode = "NBA." + dcName + "." + rack + "." + wParts + "\n";
+            // Menentukan prefix NBA
+            var nbaPrefix = nba2Exceptions.includes(dcName) ? "NBA2" : "NBA";
+
+            var nbaCode = nbaPrefix + "." + dcName + "." + rack + "." + wParts + "\n";
             output += nbaCode;
         } else {
             output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
@@ -65,4 +70,3 @@ function copyOutput() {
     // Menghapus elemen sementara dari DOM
     document.body.removeChild(tempElement);
 }
-
