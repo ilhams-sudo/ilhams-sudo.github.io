@@ -86,7 +86,11 @@ button:hover {
     text-align: left;
     color: #333;
     font-size: 14px;
-    word-wrap: break-word;
+    word-wrap: break-word; /* Ensures long words break and wrap to the next line */
+    white-space: pre-wrap; /* Maintains whitespace and line breaks in the output */
+    overflow-wrap: break-word; /* Prevents text from overflowing the container */
+    max-width: 100%; /* Ensures the output doesn't exceed the container's width */
+    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }
 
 .credit {
