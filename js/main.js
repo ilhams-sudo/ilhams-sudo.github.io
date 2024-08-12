@@ -23,23 +23,30 @@ function generateNBA() {
             // Cek jika dcName bukan E atau F dan rack lebih besar dari 3
             if (["E", "F"].indexOf(dcName) === -1 && parseInt(parts[2]) > 3) {
                 output += `Rack ${rack} tidak valid untuk DC ${dcName}. Harus antara 1 hingga 3.\n`;
-            } else {
-                // Memodifikasi bagian W sesuai dengan panjangnya
-                var wParts = "";
-                if (parts[3].length === 3) {
-                    wParts = parts[3].substring(0, 2) + "." + parts[3].substring(2);
-                } else if (parts[3].length === 2) {
-                    wParts = parts[3][0] + "." + parts[3][1];
-                } else if (parts[3].length === 1) {
-                    wParts = "0." + parts[3];
-                }
-
-                // Menentukan prefix NBA
-                var nbaPrefix = nba2Exceptions.includes(dcName) ? "NBA2" : "NBA";
-
-                var nbaCode = nbaPrefix + "." + dcName + "." + rack + "." + wParts + "\n";
-                output += nbaCode;
+                return;
             }
+
+            // Memodifikasi bagian W sesuai dengan panjangnya
+            var wParts = "";
+            if (parts[3].length === 3) {
+                wParts = parts[3].substring(0, 2) + "." + parts[3].substring(2);
+            } else if (parts[3].length === 2) {
+                wParts = parts[3][0] + "." + parts[3][1];
+            } else if (parts[3].length === 1) {
+                wParts = "0." + parts[3];
+            }
+
+            // Cek jika dcName bukan E atau F dan wParts lebih besar dari 106
+            if (["E", "F"].indexOf(dcName) === -1 && parseInt(parts[3]) > 106) {
+                output += `W bagian ${parts[3]} tidak valid untuk DC ${dcName}. Harus kurang dari atau sama dengan 106.\n`;
+                return;
+            }
+
+            // Menentukan prefix NBA
+            var nbaPrefix = nba2Exceptions.includes(dcName) ? "NBA2" : "NBA";
+
+            var nbaCode = nbaPrefix + "." + dcName + "." + rack + "." + wParts + "\n";
+            output += nbaCode;
         } else {
             output += "Format input tidak valid. Pastikan formatnya adalah X.Y.Z.W\n";
         }
