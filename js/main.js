@@ -82,3 +82,8 @@ function copyOutput() {
     // Menghapus elemen sementara dari DOM
     document.body.removeChild(tempElement);
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    const input = document.getElementById('input');
+    input.placeholder = "Contoh:\n10.13.1.11\n10.13.2.22";
+});
