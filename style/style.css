@@ -1,6 +1,6 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
     margin: 0;
     padding: 0;
     display: flex;
@@ -19,24 +19,26 @@ body {
 }
 
 .container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
-    max-width: 400px;
+    max-width: 450px;
     width: 90%;
     transition: all 0.3s ease;
 }
 
 .container:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
-    color: #333;
+    color: #2e7d32;
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 label {
@@ -44,63 +46,69 @@ label {
     margin-bottom: 10px;
     font-weight: bold;
     text-align: left;
-    color: #555;
+    color: #2e7d32;
 }
 
 textarea {
     width: 100%;
     height: 150px;
-    padding: 12px;
+    padding: 15px;
     margin-bottom: 20px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
+    border-radius: 10px;
+    border: 1px solid #aed581;
     box-sizing: border-box;
     resize: vertical;
-    font-size: 14px;
+    font-size: 16px;
     transition: all 0.3s ease;
 }
 
 textarea:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #81c784;
+    box-shadow: 0 0 8px rgba(129, 199, 132, 0.5);
     outline: none;
 }
 
 button {
     padding: 12px 25px;
-    background-color: #007bff;
+    background-color: #81c784;
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 16px;
+    margin: 5px;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #66bb6a;
 }
 
 #output {
     margin-top: 20px;
     text-align: left;
-    color: #333;
-    font-size: 14px;
-    word-wrap: break-word; /* Ensures long words break and wrap to the next line */
-    white-space: pre-wrap; /* Maintains whitespace and line breaks in the output */
-    overflow-wrap: break-word; /* Prevents text from overflowing the container */
-    max-width: 100%; /* Ensures the output doesn't exceed the container's width */
-    box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+    color: #2e7d32;
+    font-size: 16px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    border: 1px solid #aed581;
 }
 
 .credit {
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #f9f9f9;
-    border-top: 1px solid #ddd;
+    background-color: #e8f5e9;
+    border-top: 1px solid #81c784;
     padding: 10px 0;
     text-align: center;
     font-size: 12px;
-    color: #888;
+    color: #388e3c;
+    letter-spacing: 1px;
 }
