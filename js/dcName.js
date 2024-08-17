@@ -1,150 +1,35 @@
+// Objek yang memetakan kode DC ke nama DC yang sesuai
+const dcMap = {
+    "1": "A1A", "2": "A2A", "3": "A3A", "4": "A4A", "5": "A5A", "6": "A6A",
+    "7": "A1B", "8": "A2B", "9": "A3B", "10": "A4B", "11": "A5B", "12": "A6B",
+    "13": "B1A", "14": "B2A", "15": "B3A", "16": "B4A", "17": "B5A", "18": "B6A",
+    "19": "B1B", "20": "B2B", "21": "B3B", "22": "B4B", "23": "B5B", "24": "B6B",
+    "25": "C1A", "26": "C2A", "27": "C3A", "28": "C4A", "29": "C5A", "30": "C6A",
+    "31": "C1B", "32": "C2B", "33": "C3B", "34": "C4B", "35": "C5B", "36": "C6B",
+    "37": "D1A", "38": "D2A", "39": "D3A", "40": "D4A", "41": "D5A",
+    "42": "D1B", "43": "D2B", "44": "D3B", "45": "D4B", "46": "D5B",
+    "47": "C7A", "48": "C8A", "49": "C9A", "50": "C10A",
+    "51": "C7B", "52": "C8B", "53": "C9B", "54": "C10B",
+    "55": "D6A", "56": "D7A", "57": "D8A", "58": "D9A",
+    "59": "D6B", "60": "D7B", "61": "D8B", "62": "D9B",
+    "63": "E2A", "64": "E3A", "65": "E4A",
+    "66": "E2B", "67": "E3B", "68": "E4B"
+};
+
+// Fungsi untuk mendapatkan nama DC berdasarkan bagian DC
 function getDcName(dcPart) {
-    switch(dcPart) {
-        case "1":
-            return "A1A";
-        case "2":
-            return "A2A";
-        case "3":
-            return "A3A";
-        case "4":
-            return "A4A";
-        case "5":
-            return "A5A";
-        case "6":
-            return "A6A";
-        case "7":
-            return "A1B";
-        case "8":
-            return "A2B";
-        case "9":
-            return "A3B";
-        case "10":
-            return "A4B";
-        case "11":
-            return "A5B";
-        case "12":
-            return "A6B";
-        case "13":
-            return "B1A";
-        case "14":
-            return "B2A";
-        case "15":
-            return "B3A";
-        case "16":
-            return "B4A";
-        case "17":
-            return "B5A";
-        case "18":
-            return "B6A";
-        case "19":
-            return "B1B";
-        case "20":
-            return "B2B";
-        case "21":
-            return "B3B";
-        case "22":
-            return "B4B";
-        case "23":
-            return "B5B";
-        case "24":
-            return "B6B";
-        case "25":
-            return "C1A";
-        case "26":
-            return "C2A";
-        case "27":
-            return "C3A";
-        case "28":
-            return "C4A";
-        case "29":
-            return "C5A";
-        case "30":
-            return "C6A";
-        case "31":
-            return "C1B";
-        case "32":
-            return "C2B";
-        case "33":
-            return "C3B";
-        case "34":
-            return "C4B";
-        case "35":
-            return "C5B";
-        case "36":
-            return "C6B";
-        case "37":
-            return "D1A";
-        case "38":
-            return "D2A";
-        case "39":
-            return "D3A";
-        case "40":
-            return "D4A";
-        case "41":
-            return "D5A";
-        case "42":
-            return "D1B";
-        case "43":
-            return "D2B";
-        case "44":
-            return "D3B";
-        case "45":
-            return "D4B";
-        case "46":
-            return "D5B";
-        // Cakung2 dcName
-        case "47":
-            return "C7A";
-        case "48":
-            return "C8A";
-        case "49":
-            return "C9A";
-        case "50":
-            return "C10A";
-        case "51":
-            return "C7B";
-        case "52":
-            return "C8B";
-        case "53":
-            return "C9B";
-        case "54":
-            return "C10B";
-        case "55":
-            return "D6A";
-        case "56":
-            return "D7A";
-        case "57":
-            return "D8A";
-        case "58":
-            return "D9A";
-        case "59":
-            return "D6B";
-        case "60":
-            return "D7B";
-        case "61":
-            return "D8B";
-        case "62":
-            return "D9B";
-        case "63":
-            return "E2A";
-        case "64":
-            return "E3A";
-        case "65":
-            return "E4A";
-        case "66":
-            return "E2B";
-        case "67":
-            return "E3B";
-        case "68":
-            return "E4B";
-            
-        // SH-E dan SH-F
-        default:
-            if (dcPart >= 83 && dcPart <= 91) {
-                return "E";
-            } else if (dcPart >= 92 && dcPart <= 100) {
-                return "F";
-            }
-            return null;
+    // Mengecek apakah dcPart ada dalam dcMap
+    if (dcMap[dcPart]) {
+        return dcMap[dcPart];
+    } 
+    // Menangani rentang DC untuk "E"
+    else if (dcPart >= 83 && dcPart <= 91) {
+        return "E";
+    } 
+    // Menangani rentang DC untuk "F"
+    else if (dcPart >= 92 && dcPart <= 100) {
+        return "F";
     }
+    // Mengembalikan null jika dcPart tidak dikenal
+    return null;
 }
