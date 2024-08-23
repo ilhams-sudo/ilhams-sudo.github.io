@@ -2,7 +2,7 @@
 const nba2Exceptions = ["C7A", "C8A", "C9A", "C10A", "C7B", "C8B", "C9B", "C10B", 
                         "D6A", "D7A", "D8A", "D9A", "D6B", "D7B", "D8B", "D9B", 
                         "E2A", "E3A", "E4A", "E2B", "E3B", "E4B", 
-                        "G1A", "G2A", "G1B", "G2B", "G3B", "G4B","G5B"];
+                        "G1A", "G2A", "G1B", "G2B", "G3B", "G4B", "G5B"];
 
 function generateNBA() {
     var input = document.getElementById("input").value;
