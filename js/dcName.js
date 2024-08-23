@@ -14,7 +14,7 @@ const dcMap = {
     "59": "D6B", "60": "D7B", "61": "D8B", "62": "D9B",
     "63": "E2A", "64": "E3A", "65": "E4A",
     "66": "E2B", "67": "E3B", "68": "E4B",
-    "80": "G5B"
+    "69": "G1A", "70": "G2A", "76": "G1B", "77" :"G2B", "78": "G3B", "79": "G4B", "80": "G5B"
 };
 
 // Fungsi untuk mendapatkan nama DC berdasarkan bagian DC
