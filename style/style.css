@@ -84,6 +84,33 @@ button:hover {
     background-color: #66bb6a;
 }
 
+/* Mengatur gaya untuk grup tombol Generate dan Copy Data */
+.button-group {
+    margin-bottom: 1rem;
+}
+
+.button-group button {
+    margin-right: 0.5rem;
+}
+
+/* Mengatur gaya untuk tombol Reset */
+.reset-btn {
+    display: block;
+    margin: 1rem auto 0;
+    padding: 12px 25px;
+    background-color: #ff7043; /* Warna tombol reset yang berbeda */
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
+
+.reset-btn:hover {
+    background-color: #ff5722; /* Warna tombol saat hover */
+}
+
 #output {
     margin-top: 20px;
     text-align: left;
