@@ -86,6 +86,14 @@ function copyOutput() {
     document.body.removeChild(tempElement);
 }
 
+function resetForm() {
+    // Mengatur ulang textarea
+    document.getElementById("input").value = "";
+    
+    // Mengatur ulang elemen output
+    document.getElementById("output").textContent = "";
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     const input = document.getElementById('input');
     input.placeholder = "Contoh:\n10.13.1.11\n10.13.2.22";
