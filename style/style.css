@@ -4,12 +4,9 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
+    flex-direction: column; /* Mengatur flex direction ke kolom */
+    align-items: center; /* Memusatkan konten di tengah */
 }
-
 .wrapper {
     flex: 1;
     display: flex;
@@ -180,4 +177,35 @@ button:hover {
 
 .credit .social-icons a:hover {
     color: #66bb6a;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: center; /* Memusatkan navbar */
+    width: 100%; /* Membuat navbar memenuhi lebar */
+}
+
+.navbar {
+    background-color: #81c784; /* Menggunakan warna yang sama dengan tombol Generate */
+    padding: 10px 20px;
+    display: flex; /* Menjaga agar tautan dalam satu baris */
+    justify-content: center; /* Memusatkan tautan di navbar */
+    border-radius: 8px; /* Sudut melengkung */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lebih halus */
+    margin-bottom: 20px; /* Jarak antara navbar dan konten */
+}
+
+.nav-btn {
+    color: white; /* Warna teks */
+    text-decoration: none; /* Menghapus garis bawah */
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s; /* Tambahkan efek transform */
+    font-size: 16px;
+    margin: 0 10px; /* Menambahkan margin antar tombol */
+}
+
+.nav-btn:hover {
+    background-color: #66bb6a; /* Warna saat hover (sedikit lebih gelap) */
+    transform: scale(1.05); /* Efek memperbesar saat hover */
 }
