@@ -4,102 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Work Order Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        h1 {
-            color: #333;
-        }
-        .navbar {
-    background-color: #81c784; /* Menggunakan warna yang sama dengan tombol Generate */
-    padding: 10px 20px;
-    display: flex; /* Menjaga agar tautan dalam satu baris */
-    justify-content: center; /* Memusatkan tautan di navbar */
-    border-radius: 8px; /* Sudut melengkung */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lebih halus */
-    margin-bottom: 20px; /* Jarak antara navbar dan konten */
-}
-
-.nav-btn {
-    color: white; /* Warna teks */
-    text-decoration: none; /* Menghapus garis bawah */
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.3s; /* Tambahkan efek transform */
-    font-size: 16px;
-    margin: 0 10px; /* Menambahkan margin antar tombol */
-}
-
-.nav-btn:hover {
-    background-color: #66bb6a; /* Warna saat hover (sedikit lebih gelap) */
-    transform: scale(1.05); /* Efek memperbesar saat hover */
-}
-        .container {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 300px;
-            text-align: center;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #4cae4c;
-        }
-        h2 {
-            margin-top: 20px;
-            color: #333;
-        }
-        #result {
-            margin-top: 10px;
-            padding: 10px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            text-align: left;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../style/style.css">
 </head>
 <body>
-    <div class="navbar">
-        <a href="../index.html" class="nav-btn">Home</a>
-        <a href="WOGEN.html" class="nav-btn">WO Generator</a>
+    <div class="navbar-container">
+        <div class="navbar">
+            <a href="../index.html" class="nav-btn">Home</a>
+            <a href="WOGEN.html" class="nav-btn">WO Generator</a>
+        </div>
     </div>
+    
     <h1>Work Order Generator</h1>
-    <div class="container">
-        <label for="location">Site:</label>
-        <input type="text" id="location" placeholder="Contoh: CAKUNG">
-        <label for="number">Nomor Awal:</label>
-        <input type="number" id="number" placeholder="Contoh: 001" min="1">
-        <label for="count">Jumlah:</label>
-        <input type="number" id="count" placeholder="Jumlah WO" min="1" value="1">
-        <button id="generate">Generate Work Order</button>
-        <h2>Hasil:</h2>
-        <div id="result"></div>
+    
+    <div class="wrapper">
+        <div class="container">
+            <div class="form-group">
+                <label for="location">Site:</label>
+                <input type="text" id="location" placeholder="Contoh: CAKUNG">
+            </div>
+            <div class="form-group">
+                <label for="number">Nomor Awal:</label>
+                <input type="number" id="number" placeholder="Contoh: 001" min="1">
+            </div>
+            <div class="form-group">
+                <label for="count">Jumlah:</label>
+                <input type="number" id="count" placeholder="Jumlah WO" min="1" value="1">
+            </div>
+            <div class="button-group">
+                <button id="generate">Generate Work Order</button>
+                <button class="reset-btn" id="reset">Reset</button>
+            </div>
+            <h2>Hasil:</h2>
+            <div id="result"></div>
+        </div>
     </div>
 
     <script>
@@ -117,6 +54,13 @@
                 results.push(result);
             }
             document.getElementById('result').innerText = results.join('\n');
+        });
+
+        document.getElementById('reset').addEventListener('click', function() {
+            document.getElementById('location').value = '';
+            document.getElementById('number').value = '';
+            document.getElementById('count').value = '1';
+            document.getElementById('result').innerText = '';
         });
     </script>
 </body>
