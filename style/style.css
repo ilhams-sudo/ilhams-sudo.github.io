@@ -205,6 +205,25 @@ button:hover {
     margin: 0 10px; /* Menambahkan margin antar tombol */
 }
 
+.form-group {
+    display: flex;
+    flex-direction: column; /* Align label and input vertically */
+    margin-bottom: 20px; /* Space between form groups */
+}
+
+.form-group label {
+    margin-bottom: 5px; /* Space between label and input */
+}
+
+.form-group input {
+    width: 100%; /* Make input take full width */
+    padding: 10px; /* Add padding for better appearance */
+    border-radius: 5px; /* Consistent border radius */
+    border: 1px solid #aed581; /* Match the border style */
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+
 .nav-btn:hover {
     background-color: #66bb6a; /* Warna saat hover (sedikit lebih gelap) */
     transform: scale(1.05); /* Efek memperbesar saat hover */
