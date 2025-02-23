@@ -7,3 +7,4 @@ dibuat untuk membantu teknisi sie cakung dalam mempermudah proses dashboard
 -v2 include Cakung 2 <br>
 -v2.1 Menampilkan pesan error jika input rak antbox > 3
       New look
+-v2.2 Fungsi baru Get DC Name
