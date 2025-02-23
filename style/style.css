@@ -96,27 +96,32 @@ button:hover {
 /* Mengatur gaya untuk grup tombol Generate dan Copy Data */
 .button-group {
     display: flex;
-    justify-content: center; /* Memusatkan tombol secara horizontal */
-    gap: 1rem; /* Jarak antar tombol, Anda bisa menyesuaikannya sesuai kebutuhan */
+    justify-content: space-between; /* Memastikan tombol memiliki jarak yang rata */
+    gap: 1rem; /* Jarak antar tombol */
     margin-bottom: 1rem;
+    flex-wrap: wrap; /* Tombol akan membungkus jika layar terlalu sempit */
 }
 
 .button-group button {
-    flex: 1; /* Membuat semua tombol dalam grup memiliki lebar yang sama */
-    max-width: 150px; /* Menetapkan lebar maksimum agar tidak terlalu lebar */
+    flex: 1; /* Membuat semua tombol memiliki lebar yang sama */
+    min-width: 120px; /* Menetapkan lebar minimum untuk tombol agar tidak terlalu kecil di layar kecil */
+    max-width: 200px; /* Menetapkan lebar maksimum agar tombol tidak terlalu besar */
     text-align: center; /* Memastikan teks di dalam tombol berada di tengah */
+    padding: 12px 25px;
+    background-color: #81c784;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 16px;
+    margin: 5px;
 }
 
-/* Menambahkan padding agar tombol tidak terlalu lebar */
-.button-group button:first-child {
-    margin-left: 0; /* Menghapus margin kiri untuk tombol pertama */
+.button-group button:hover {
+    background-color: #66bb6a;
 }
 
-.button-group button:last-child {
-    margin-right: 0; /* Menghapus margin kanan untuk tombol terakhir */
-}
-
-/* Mengatur gaya untuk tombol Reset */
 .reset-btn {
     display: block;
     margin: 1rem auto 0;
@@ -128,10 +133,7 @@ button:hover {
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 16px;
-}
-
-.reset-btn:hover {
-    background-color: #ff5722; /* Warna tombol saat hover */
+    width: auto; /* Menjaga ukuran tombol reset tetap proporsional */
 }
 
 #output {
