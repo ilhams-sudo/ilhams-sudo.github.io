@@ -4,9 +4,12 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column; /* Mengatur flex direction ke kolom */
-    align-items: center; /* Memusatkan konten di tengah */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
 }
+
 .wrapper {
     flex: 1;
     display: flex;
@@ -177,77 +180,4 @@ button:hover {
 
 .credit .social-icons a:hover {
     color: #66bb6a;
-}
-
-.navbar-container {
-    display: flex;
-    justify-content: center; /* Memusatkan navbar */
-    width: 100%; /* Membuat navbar memenuhi lebar */
-}
-
-.navbar {
-    background-color: #81c784; /* Menggunakan warna yang sama dengan tombol Generate */
-    padding: 10px 20px;
-    display: flex; /* Menjaga agar tautan dalam satu baris */
-    justify-content: center; /* Memusatkan tautan di navbar */
-    border-radius: 8px; /* Sudut melengkung */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan lebih halus */
-    margin-bottom: 20px; /* Jarak antara navbar dan konten */
-}
-
-.nav-btn {
-    color: white; /* Warna teks */
-    text-decoration: none; /* Menghapus garis bawah */
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.3s; /* Tambahkan efek transform */
-    font-size: 16px;
-    margin: 0 10px; /* Menambahkan margin antar tombol */
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column; /* Align label and input vertically */
-    margin-bottom: 20px; /* Space between form groups */
-}
-
-.form-group label {
-    margin-bottom: 5px; /* Space between label and input */
-}
-
-.form-group input {
-    width: 100%; /* Make input take full width */
-    padding: 10px; /* Add padding for better appearance */
-    border-radius: 5px; /* Consistent border radius */
-    border: 1px solid #aed581; /* Match the border style */
-    box-sizing: border-box; /* Ensure padding is included in width */
-}
-
-
-.nav-btn:hover {
-    background-color: #66bb6a; /* Warna saat hover (sedikit lebih gelap) */
-    transform: scale(1.05); /* Efek memperbesar saat hover */
-}
-.header {
-    text-align: center;
-    background: linear-gradient(135deg, #43a047, #66bb6a);
-    color: white;
-    padding: 20px 0;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
-    margin: 20px auto;
-    width: 90%;
-    max-width: 600px;
-}
-
-.header h1 {
-    font-size: 28px;
-    font-weight: bold;
-    margin: 0;
-    color: white; /* Ubah teks menjadi putih */
-}
-
-.header p {
-    font-size: 16px;
-    opacity: 0.9;
 }
