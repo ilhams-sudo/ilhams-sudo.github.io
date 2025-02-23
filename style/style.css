@@ -86,27 +86,17 @@ button:hover {
 
 /* Mengatur gaya untuk grup tombol Generate dan Copy Data */
 .button-group {
-    margin-bottom: 1rem;
-}
-
-.button-group button {
-    margin-right: 0.5rem;
-}
-
-/* Mengatur gaya untuk grup tombol Generate dan Copy Data */
-.button-group {
     display: flex;
-    justify-content: space-between; /* Memastikan tombol memiliki jarak yang rata */
+    justify-content: space-between; /* Menjaga jarak antar tombol */
     gap: 1rem; /* Jarak antar tombol */
     margin-bottom: 1rem;
-    flex-wrap: wrap; /* Tombol akan membungkus jika layar terlalu sempit */
+    flex-wrap: nowrap; /* Menghindari tombol membungkus ke bawah */
 }
 
 .button-group button {
-    flex: 1; /* Membuat semua tombol memiliki lebar yang sama */
-    min-width: 120px; /* Menetapkan lebar minimum untuk tombol agar tidak terlalu kecil di layar kecil */
+    flex: 1 1 120px; /* Tombol memiliki lebar minimal 120px dan tumbuh hingga 1 untuk mengisi ruang */
     max-width: 200px; /* Menetapkan lebar maksimum agar tombol tidak terlalu besar */
-    text-align: center; /* Memastikan teks di dalam tombol berada di tengah */
+    text-align: center;
     padding: 12px 25px;
     background-color: #81c784;
     color: #fff;
