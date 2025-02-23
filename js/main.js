@@ -57,19 +57,28 @@ function generateNBA() {
     document.getElementById("output").textContent = output;
 }
 
-function copyOutput() {
-    // Mendapatkan elemen output
-    var outputElement = document.getElementById('output');
-    
-    // Mengambil teks dari elemen output
-    var text = outputElement.textContent || outputElement.innerText;
+function extractDC() {
+    var input = document.getElementById("input").value;
+    var lines = input.split(/\r?\n|\r/);
+    var output = "";
+    lines.forEach(function(line) {
+        var parts = line.split(".");
+        if (parts.length >= 2) {
+            var dcName = getDcName(parts[1]);
+            if (dcName !== null) {
+                output += dcName + "\n"; // Hanya menampilkan nama DC saja
+            }
+        }
+    });
+    document.getElementById("output").textContent = output.trim(); // Menghapus spasi ekstra di akhir output
+}
 
-    // Membuat elemen sementara untuk menampung teks
+function copyOutput() {
+    var outputElement = document.getElementById('output');
+    var text = outputElement.textContent || outputElement.innerText;
     var tempElement = document.createElement('textarea');
     tempElement.value = text;
     document.body.appendChild(tempElement);
-    
-    // Memilih dan menyalin teks dari elemen sementara
     tempElement.select();
     try {
         var successful = document.execCommand('copy');
@@ -81,16 +90,11 @@ function copyOutput() {
     } catch (err) {
         alert('Terjadi kesalahan saat menyalin.');
     }
-
-    // Menghapus elemen sementara dari DOM
     document.body.removeChild(tempElement);
 }
 
 function resetForm() {
-    // Mengatur ulang textarea
     document.getElementById("input").value = "";
-    
-    // Mengatur ulang elemen output
     document.getElementById("output").textContent = "";
 }
 
