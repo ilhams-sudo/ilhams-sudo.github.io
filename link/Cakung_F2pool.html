@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Cakung F2pool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      text-align: center;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      margin-bottom: 15px;
+      color: #1b5e20;
+      border-bottom: 2px solid #c8e6c9;
+      padding-bottom: 5px;
+      text-align: center;
+    }
+
+    .group {
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      justify-content: center;
+      grid-template-columns: repeat(6, 100px);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .button a {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .button a:hover {
+      background-color: #388e3c;
+      transform: translateY(-2px);
+    }
+
+    .special a {
+      background-color: #2196F3 !important;
+    }
+
+    .special a:hover {
+      background-color: #1976D2 !important;
+    }
+
+    @media screen and (max-width: 650px) {
+      .grid {
+        grid-template-columns: repeat(3, 100px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Cakung F2pool</h1>
+    <div id="buttons-container"></div>
+  </div>
+
+  <script>
+    const container = document.getElementById('buttons-container');
+    const baseUrl = 'https://www.f2pool.com/mining-user/e0f391a8b01f59ac5713cae230786e16?user_name=nba';
+
+    function createGroup(title, prefix, start, end) {
+      const group = document.createElement('div');
+      group.className = 'group';
+
+      const heading = document.createElement('h2');
+      heading.textContent = `Line ${prefix}`;
+      group.appendChild(heading);
+
+      const gridA = document.createElement('div');
+      gridA.className = 'grid';
+      for (let i = start; i <= end; i++) {
+        const label = `${prefix}${i}A`;
+        const url = `${baseUrl}${label.toLowerCase()}`;
+        const button = document.createElement('div');
+        button.className = 'button';
+        button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+        gridA.appendChild(button);
+      }
+      group.appendChild(gridA);
+
+      const gridB = document.createElement('div');
+      gridB.className = 'grid';
+      for (let i = start; i <= end; i++) {
+        const label = `${prefix}${i}B`;
+        const url = `${baseUrl}${label.toLowerCase()}`;
+        const button = document.createElement('div');
+        button.className = 'button';
+        button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+        gridB.appendChild(button);
+      }
+      group.appendChild(gridB);
+
+      container.appendChild(group);
+    }
+
+    // Line A–E
+    createGroup('Line A', 'A', 1, 6);
+    createGroup('Line B', 'B', 1, 6);
+    createGroup('Line C', 'C', 1, 10);
+    createGroup('Line D', 'D', 2, 9);
+    createGroup('Line E', 'E', 2, 4);
+
+    // Line G
+    const groupG = document.createElement('div');
+    groupG.className = 'group';
+    const headingG = document.createElement('h2');
+    headingG.textContent = 'Line G';
+    groupG.appendChild(headingG);
+
+    const gridGA = document.createElement('div');
+    gridGA.className = 'grid';
+    ['G1A', 'G2A'].forEach(label => {
+      const url = `${baseUrl}${label.toLowerCase()}`;
+      const button = document.createElement('div');
+      button.className = 'button';
+      button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+      gridGA.appendChild(button);
+    });
+    groupG.appendChild(gridGA);
+
+    const gridGB = document.createElement('div');
+    gridGB.className = 'grid';
+    for (let i = 1; i <= 5; i++) {
+      const label = `G${i}B`;
+      const url = `${baseUrl}${label.toLowerCase()}`;
+      const button = document.createElement('div');
+      button.className = 'button';
+      button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+      gridGB.appendChild(button);
+    }
+    groupG.appendChild(gridGB);
+    container.appendChild(groupG);
+
+    // House E & F
+    const houseGroup = document.createElement('div');
+    houseGroup.className = 'group';
+    const headingHouse = document.createElement('h2');
+    headingHouse.textContent = 'House';
+    houseGroup.appendChild(headingHouse);
+
+    const gridHouse = document.createElement('div');
+    gridHouse.className = 'grid';
+
+    const houseButtons = [
+      { label: 'House F', url: 'https://www.f2pool.com/mining-user/e0f391a8b01f59ac5713cae230786e16?user_name=nbadcf' },
+      { label: 'House E', url: 'https://www.f2pool.com/mining-user/e0f391a8b01f59ac5713cae230786e16?user_name=nbadce' },
+    ];
+
+    houseButtons.forEach(({ label, url }) => {
+      const button = document.createElement('div');
+      button.className = 'button special';
+      button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+      gridHouse.appendChild(button);
+    });
+
+    houseGroup.appendChild(gridHouse);
+    container.appendChild(houseGroup);
+  </script>
+
+</body>
+</html>
