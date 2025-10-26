@@ -71,6 +71,29 @@
       background-color: #1976D2 !important;
     }
 
+    /* Tombol atas */
+    .top-button {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .top-button a {
+      display: inline-block;
+      background-color: #4CAF50; /* Hijau */
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    }
+
+    .top-button a:hover {
+      background-color: #388e3c;
+      transform: translateY(-2px);
+    }
+
     @media screen and (max-width: 650px) {
       .grid {
         grid-template-columns: repeat(3, 100px);
@@ -81,6 +104,11 @@
 <body>
 
   <div class="container">
+    <!-- Tombol di bagian paling atas -->
+    <div class="top-button">
+      <a href="https://ilhams-sudo.github.io/">Kembali ke Ilhams Sudo</a>
+    </div>
+
     <h1>Cakung F2pool</h1>
     <div id="buttons-container"></div>
   </div>
@@ -104,7 +132,7 @@
         const url = `${baseUrl}${label.toLowerCase()}`;
         const button = document.createElement('div');
         button.className = 'button';
-        button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+        button.innerHTML = `<a href="${url}">${label}</a>`;
         gridA.appendChild(button);
       }
       group.appendChild(gridA);
@@ -116,7 +144,7 @@
         const url = `${baseUrl}${label.toLowerCase()}`;
         const button = document.createElement('div');
         button.className = 'button';
-        button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+        button.innerHTML = `<a href="${url}">${label}</a>`;
         gridB.appendChild(button);
       }
       group.appendChild(gridB);
@@ -144,7 +172,7 @@
       const url = `${baseUrl}${label.toLowerCase()}`;
       const button = document.createElement('div');
       button.className = 'button';
-      button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+      button.innerHTML = `<a href="${url}">${label}</a>`;
       gridGA.appendChild(button);
     });
     groupG.appendChild(gridGA);
@@ -156,7 +184,7 @@
       const url = `${baseUrl}${label.toLowerCase()}`;
       const button = document.createElement('div');
       button.className = 'button';
-      button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+      button.innerHTML = `<a href="${url}">${label}</a>`;
       gridGB.appendChild(button);
     }
     groupG.appendChild(gridGB);
@@ -180,7 +208,7 @@
     houseButtons.forEach(({ label, url }) => {
       const button = document.createElement('div');
       button.className = 'button special';
-      button.innerHTML = `<a href="${url}" target="_blank">${label}</a>`;
+      button.innerHTML = `<a href="${url}">${label}</a>`;
       gridHouse.appendChild(button);
     });
 
