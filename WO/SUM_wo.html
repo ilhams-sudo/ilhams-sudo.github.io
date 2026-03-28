@@ -1,250 +1,215 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Excel Worker Summary</title>
+  <title>Worker Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f7f8;
-      color: #333;
-      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f7f8;
+      padding: 15px;
+      font-size: 13px;
     }
+    h2, h3 { color: #007acc; margin-bottom: 8px; }
 
-    h2 { color: #007acc; }
-    h3 { margin-top: 30px; color: #005a99; }
-
-    input[type="file"], select, input[type="text"] {
-      padding: 8px;
+    input, select, button {
+      padding: 6px;
+      margin-bottom: 10px;
       border-radius: 5px;
       border: 1px solid #ccc;
-      margin-bottom: 10px;
-      width: 250px;
     }
 
-    /* 🔥 GRID CHECKBOX */
     .checkbox-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 6px 12px;
-      max-height: 250px;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 5px;
+      max-height: 180px;
       overflow-y: auto;
-      border: 1px solid #ccc;
+      background: #fff;
       padding: 10px;
       border-radius: 5px;
-      background: #fff;
-    }
-
-    .checkbox-list label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    .checkbox-controls {
+      border: 1px solid #ccc;
       margin-bottom: 10px;
     }
 
-    .checkbox-controls button {
-      padding: 5px 10px;
-      margin-right: 5px;
-      border-radius: 5px;
-      border: 1px solid #007acc;
-      background-color: #fff;
-      cursor: pointer;
-    }
+    .checkbox-controls { margin-bottom: 10px; }
 
-    .checkbox-controls button:hover {
-      background-color: #007acc;
-      color: white;
-    }
-
-    .worker {
-      margin-bottom: 15px;
-      padding: 10px;
-      border-left: 4px solid #007acc;
-      border-radius: 5px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
       background: #fff;
+      margin-top: 10px;
     }
 
-    .low-time {
-      background-color: #ffe5e5;
-      border-left-color: red;
+    th {
+      background: #007acc;
+      color: white;
+      text-align: left;
+      padding: 8px;
     }
+
+    td { padding: 8px; border-bottom: 1px solid #eee; }
+
+    tr:hover { background: #f1f9ff; cursor: pointer; }
+
+    .low { color: red; font-weight: bold; }
+
+    .details { display: none; background: #fafafa; }
+    .date-box { margin-bottom: 6px; padding:6px; border-left:3px solid #007acc; background:#fff; border-radius:4px; }
+    .date-title { font-weight:bold; color:#007acc; }
   </style>
 </head>
 <body>
 
-<h2>Upload File Excel (.xlsx)</h2>
-<input type="file" id="fileInput" accept=".xlsx" />
+<h2>Upload Excel</h2>
+<input type="file" id="fileInput" accept=".xlsx">
 
-<h3>Sort by:</h3>
-<select id="sortSelect">
-  <option value="name">Worker Name (A-Z)</option>
-  <option value="minutes_desc">Total Minutes (High → Low)</option>
-  <option value="minutes_asc">Total Minutes (Low → High)</option>
-</select>
-
-<h3>Select Workers:</h3>
-
-<input type="text" id="searchWorker" placeholder="Cari worker..." />
-
+<h3>Filter Worker</h3>
+<input type="text" id="searchWorker" placeholder="Cari worker...">
 <div class="checkbox-controls">
-  <button id="selectAllBtn">Select All</button>
-  <button id="deselectAllBtn">Deselect All</button>
+  <button onclick="toggleAll(true)">Select All</button>
+  <button onclick="toggleAll(false)">Deselect All</button>
 </div>
-
 <div class="checkbox-list" id="workerCheckboxes"></div>
 
-<h3>Hasil:</h3>
-<div id="output"></div>
+<h3>Filter Tanggal</h3>
+<input type="date" id="startDate"> s/d <input type="date" id="endDate">
 
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<h3>Top Worker Chart</h3>
+<canvas id="chart" height="100"></canvas>
+
+<h3>Worker Table</h3>
+<table id="table">
+  <thead>
+    <tr><th>Worker</th><th>Total (Jam)</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
 <script>
 let globalResults = {};
 
-const fileInput = document.getElementById('fileInput');
-const sortSelect = document.getElementById('sortSelect');
-const workerCheckboxes = document.getElementById('workerCheckboxes');
-const output = document.getElementById('output');
+document.getElementById('fileInput').addEventListener('change', handleFile);
+document.getElementById('searchWorker').addEventListener('input', renderAll);
+document.getElementById('startDate').addEventListener('change', renderAll);
+document.getElementById('endDate').addEventListener('change', renderAll);
 
-fileInput.addEventListener('change', handleFile);
-sortSelect.addEventListener('change', () => displayResult(globalResults));
+let chart;
 
-document.getElementById('selectAllBtn').onclick = () => toggleAll(true);
-document.getElementById('deselectAllBtn').onclick = () => toggleAll(false);
-
-document.getElementById('searchWorker').addEventListener('input', function() {
-  const keyword = this.value.toLowerCase();
-
-  document.querySelectorAll('#workerCheckboxes label').forEach(label => {
-    const text = label.textContent.toLowerCase();
-    label.style.display = text.includes(keyword) ? 'flex' : 'none';
-  });
-});
-
-function handleFile(e) {
+function handleFile(e){
   const file = e.target.files[0];
   const reader = new FileReader();
-
-  reader.onload = function(evt) {
+  reader.onload = function(evt){
     const data = new Uint8Array(evt.target.result);
-    const workbook = XLSX.read(data, { type: 'array' });
-
+    const workbook = XLSX.read(data,{type:'array'});
     const sheet = workbook.Sheets[workbook.SheetNames[0]];
     const json = XLSX.utils.sheet_to_json(sheet);
-
     processData(json);
   };
-
   reader.readAsArrayBuffer(file);
 }
 
-function processData(data) {
+function processData(data){
   const results = {};
-
-  data.forEach(row => {
+  data.forEach(row=>{
     const name = row.worker_name;
     const duration = parseFloat(row.duration_minute_worker);
-
     let dateRaw = row.wo_date;
     let date;
-
-    if (typeof dateRaw === 'number') {
+    if(typeof dateRaw==='number'){
       const d = XLSX.SSF.parse_date_code(dateRaw);
       date = `${d.y}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`;
-    } else {
-      date = dateRaw;
-    }
-
-    if (!name || isNaN(duration) || !date) return;
-
-    if (!results[name]) results[name] = {};
-    if (!results[name][date]) results[name][date] = 0;
-
+    } else date = dateRaw;
+    if(!name||isNaN(duration)||!date) return;
+    if(!results[name]) results[name]={};
+    if(!results[name][date]) results[name][date]=0;
     results[name][date] += duration;
   });
-
   globalResults = results;
   renderCheckboxes(Object.keys(results));
-  displayResult(results);
+  renderAll();
 }
 
-function renderCheckboxes(names) {
-  workerCheckboxes.innerHTML = '';
-
-  names.sort().forEach(name => {
+function renderCheckboxes(names){
+  const container=document.getElementById('workerCheckboxes');
+  container.innerHTML='';
+  names.sort().forEach(name=>{
     const label = document.createElement('label');
     label.innerHTML = `<input type="checkbox" value="${name}" checked> ${name}`;
-    workerCheckboxes.appendChild(label);
+    container.appendChild(label);
   });
-
-  document.querySelectorAll('#workerCheckboxes input').forEach(cb => {
-    cb.onchange = () => displayResult(globalResults);
+  document.querySelectorAll('#workerCheckboxes input').forEach(cb=>{
+    cb.onchange=renderAll;
   });
 }
 
-function toggleAll(state) {
-  document.querySelectorAll('#workerCheckboxes input')
-    .forEach(cb => cb.checked = state);
-
-  displayResult(globalResults);
+function getSelectedWorkers(){
+  return Array.from(document.querySelectorAll('#workerCheckboxes input:checked')).map(cb=>cb.value);
 }
 
-function displayResult(results) {
-  const sortOption = sortSelect.value;
+function toggleAll(state){
+  document.querySelectorAll('#workerCheckboxes input').forEach(cb=>cb.checked=state);
+  renderAll();
+}
 
-  const selected = Array.from(
-    document.querySelectorAll('#workerCheckboxes input:checked')
-  ).map(cb => cb.value);
+function renderAll(){
+  const tbody=document.querySelector('#table tbody');
+  tbody.innerHTML='';
+  const selected=getSelectedWorkers();
+  const start=document.getElementById('startDate').value;
+  const end=document.getElementById('endDate').value;
+  let chartData = [];
 
-  let workers = Object.entries(results)
-    .filter(([name]) => selected.includes(name));
-
-  if (sortOption === 'name') {
-    workers.sort((a,b)=> a[0].localeCompare(b[0]));
-  } else {
-    workers.sort((a,b)=> {
-      const sumA = Object.values(a[1]).reduce((x,y)=>x+y,0);
-      const sumB = Object.values(b[1]).reduce((x,y)=>x+y,0);
-      return sortOption === 'minutes_desc' ? sumB - sumA : sumA - sumB;
-    });
-  }
-
-  output.innerHTML = '';
-
-  workers.forEach(([worker, dates]) => {
-    const div = document.createElement('div');
-
-    let totalAll = 0;
-    let html = `<strong>${worker}</strong><br><br>`;
-
-    Object.entries(dates)
-      .sort((a,b)=> a[0].localeCompare(b[0]))
-      .forEach(([date, minutes]) => {
-
-        totalAll += minutes;
-
-        const hDec = (minutes / 60).toFixed(2);
-        const h = Math.floor(minutes / 60);
-        const m = minutes % 60;
-
-        html += `
-          📅 ${date}<br>
-          ${minutes} menit<br>
-          ${hDec} jam<br>
-          ${h} jam ${m} menit<br><br>
-        `;
+  const workers = Object.entries(globalResults)
+    .filter(([name])=>selected.includes(name))
+    .map(([name,dates])=>{
+      let filteredDates = {};
+      Object.entries(dates).forEach(([date,min])=>{
+        if((!start||date>=start)&&(!end||date<=end)) filteredDates[date]=min;
       });
+      const total = Object.values(filteredDates).reduce((a,b)=>a+b,0);
+      chartData.push({name,total});
+      return {name,dates:filteredDates,total};
+    });
 
-    html += `<strong>Total: ${totalAll} menit (${(totalAll/60).toFixed(2)} jam)</strong>`;
+  // sort chart by total
+  chartData.sort((a,b)=>b.total-a.total);
 
-    div.className = 'worker';
-    if (totalAll < 360) div.classList.add('low-time');
+  // render table
+  workers.forEach(w=>{
+    const tr=document.createElement('tr');
+    const totalJam=(w.total/60).toFixed(2);
+    tr.innerHTML=`<td>${w.name}</td><td class="${w.total<360?'low':''}">${totalJam} jam</td>`;
+    const detailRow=document.createElement('tr');
+    detailRow.className='details';
+    let detailHTML='';
+    Object.entries(w.dates).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([date,min])=>{
+      detailHTML+=`<div class="date-box"><div class="date-title">📅 ${date}</div><div>${min} menit (${(min/60).toFixed(2)} jam)</div></div>`;
+    });
+    detailRow.innerHTML=`<td colspan="2">${detailHTML}</td>`;
+    tr.onclick=()=>detailRow.style.display=detailRow.style.display==='table-row'?'none':'table-row';
+    tbody.appendChild(tr);
+    tbody.appendChild(detailRow);
+  });
 
-    div.innerHTML = html;
-    output.appendChild(div);
+  renderChart(chartData);
+}
+
+function renderChart(data){
+  const ctx=document.getElementById('chart').getContext('2d');
+  if(chart) chart.destroy();
+  chart=new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:data.map(d=>d.name),
+      datasets:[{
+        label:'Total Jam',
+        data:data.map(d=>(d.total/60).toFixed(2)),
+        backgroundColor:'#007acc'
+      }]
+    },
+    options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}
   });
 }
 </script>
