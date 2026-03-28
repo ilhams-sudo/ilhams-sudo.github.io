@@ -2,19 +2,119 @@
 <html>
 <head>
   <title>Excel Worker Summary</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f8;
+      color: #333;
+      padding: 20px;
+    }
+
+    h2 { color: #007acc; }
+    h3 { margin-top: 30px; color: #005a99; }
+
+    input[type="file"] {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      margin-bottom: 10px;
+      background-color: #fff;
+    }
+    input[type="file"]:hover { border-color: #007acc; }
+
+    select {
+      padding: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+    }
+
+    .checkbox-controls {
+      margin-bottom: 10px;
+    }
+
+    .checkbox-controls button {
+      padding: 5px 10px;
+      margin-right: 5px;
+      border-radius: 5px;
+      border: 1px solid #007acc;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    .checkbox-controls button:hover {
+      background-color: #007acc;
+      color: #fff;
+    }
+
+    .checkbox-list {
+      margin-bottom: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+
+    .checkbox-list label {
+      display: block;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+
+    .worker {
+      display: block;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+      border-left: 3px solid #005a99;
+    }
+
+    .worker.low-time {
+      background-color: #ffe5e5; /* merah muda */
+      border-left-color: #ff0000; /* garis merah */
+    }
+
+    .worker:hover { background-color: #dbe9f9; }
+  </style>
 </head>
 <body>
   <h2>Upload File Excel (.xlsx)</h2>
   <input type="file" id="fileInput" accept=".xlsx" />
 
+  <h3>Sort by:</h3>
+  <select id="sortSelect">
+    <option value="name">Worker Name (A-Z)</option>
+    <option value="minutes_desc">Total Minutes (High → Low)</option>
+    <option value="minutes_asc">Total Minutes (Low → High)</option>
+  </select>
+
+  <h3>Select Workers:</h3>
+  <div class="checkbox-controls">
+    <button id="selectAllBtn">Select All</button>
+    <button id="deselectAllBtn">Deselect All</button>
+  </div>
+  <div class="checkbox-list" id="workerCheckboxes"></div>
+
   <h3>Hasil:</h3>
-  <pre id="output"></pre>
+  <div id="output"></div>
 
-  <!-- Library SheetJS -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-
   <script>
-    document.getElementById('fileInput').addEventListener('change', handleFile);
+    let globalResults = {};
+
+    const fileInput = document.getElementById('fileInput');
+    const sortSelect = document.getElementById('sortSelect');
+    const workerCheckboxes = document.getElementById('workerCheckboxes');
+    const output = document.getElementById('output');
+    const selectAllBtn = document.getElementById('selectAllBtn');
+    const deselectAllBtn = document.getElementById('deselectAllBtn');
+
+    fileInput.addEventListener('change', handleFile);
+    sortSelect.addEventListener('change', () => displayResult(globalResults));
+    selectAllBtn.addEventListener('click', () => toggleAll(true));
+    deselectAllBtn.addEventListener('click', () => toggleAll(false));
 
     function handleFile(e) {
       const file = e.target.files[0];
@@ -23,14 +123,9 @@
       reader.onload = function(evt) {
         const data = new Uint8Array(evt.target.result);
         const workbook = XLSX.read(data, { type: 'array' });
-
-        // Ambil sheet pertama
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
-
-        // Convert ke JSON
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
         processData(jsonData);
       };
 
@@ -39,44 +134,66 @@
 
     function processData(data) {
       const results = {};
-
       data.forEach(row => {
         const name = row.worker_name;
         const duration = parseFloat(row.duration_minute_worker);
-
         if (!name || isNaN(duration)) return;
-
-        if (!results[name]) {
-          results[name] = 0;
-        }
-
+        if (!results[name]) results[name] = 0;
         results[name] += duration;
       });
 
+      globalResults = results;
+      renderCheckboxes(Object.keys(results));
       displayResult(results);
     }
 
-   function displayResult(results) {
-  let output = '';
+    function renderCheckboxes(workerNames) {
+      workerCheckboxes.innerHTML = '';
+      workerNames.sort().forEach(name => {
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" class="worker-checkbox" value="${name}" checked> ${name}`;
+        workerCheckboxes.appendChild(label);
+      });
 
-  for (const worker in results) {
-    const totalMinutes = results[worker];
+      document.querySelectorAll('.worker-checkbox').forEach(chk => {
+        chk.addEventListener('change', () => displayResult(globalResults));
+      });
+    }
 
-    // Konversi ke jam (desimal)
-    const hoursDecimal = (totalMinutes / 60).toFixed(2);
+    function toggleAll(checked) {
+      document.querySelectorAll('.worker-checkbox').forEach(chk => {
+        chk.checked = checked;
+      });
+      displayResult(globalResults);
+    }
 
-    // Konversi ke format jam:menit
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
+    function displayResult(results) {
+      const sortOption = sortSelect.value;
+      const checkedWorkers = Array.from(document.querySelectorAll('.worker-checkbox:checked')).map(cb => cb.value);
 
-    output += `${worker}:\n`;
-    output += `  - ${totalMinutes} menit\n`;
-    output += `  - ${hoursDecimal} jam (desimal)\n`;
-    output += `  - ${hours} jam ${minutes} menit\n\n`;
-  }
+      let resultArray = Object.entries(results).filter(([name, _]) => checkedWorkers.includes(name));
 
-  document.getElementById('output').textContent = output;
-}
+      if (sortOption === 'name') resultArray.sort((a,b) => a[0].localeCompare(b[0]));
+      else if (sortOption === 'minutes_desc') resultArray.sort((a,b) => b[1] - a[1]);
+      else if (sortOption === 'minutes_asc') resultArray.sort((a,b) => a[1] - b[1]);
+
+      output.innerHTML = ''; // kosongkan dulu
+      resultArray.forEach(([worker, totalMinutes]) => {
+        const hoursDecimal = (totalMinutes / 60).toFixed(2);
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+
+        const div = document.createElement('div');
+        div.className = 'worker';
+        if (totalMinutes < 360) div.classList.add('low-time'); // highlight < 360 menit
+        div.innerHTML = `<strong>${worker}</strong><br>
+                         ${totalMinutes} menit<br>
+                         ${hoursDecimal} jam (desimal)<br>
+                         ${hours} jam ${minutes} menit`;
+
+        output.appendChild(div);
+      });
+    }
   </script>
 </body>
 </html>
