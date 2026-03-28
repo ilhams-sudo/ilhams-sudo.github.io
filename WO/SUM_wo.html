@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Excel Worker Summary</title>
+</head>
+<body>
+  <h2>Upload File Excel (.xlsx)</h2>
+  <input type="file" id="fileInput" accept=".xlsx" />
+
+  <h3>Hasil:</h3>
+  <pre id="output"></pre>
+
+  <!-- Library SheetJS -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+  <script>
+    document.getElementById('fileInput').addEventListener('change', handleFile);
+
+    function handleFile(e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(evt) {
+        const data = new Uint8Array(evt.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+
+        // Ambil sheet pertama
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+
+        // Convert ke JSON
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+        processData(jsonData);
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+
+    function processData(data) {
+      const results = {};
+
+      data.forEach(row => {
+        const name = row.worker_name;
+        const duration = parseFloat(row.duration_minute_worker);
+
+        if (!name || isNaN(duration)) return;
+
+        if (!results[name]) {
+          results[name] = 0;
+        }
+
+        results[name] += duration;
+      });
+
+      displayResult(results);
+    }
+
+   function displayResult(results) {
+  let output = '';
+
+  for (const worker in results) {
+    const totalMinutes = results[worker];
+
+    // Konversi ke jam (desimal)
+    const hoursDecimal = (totalMinutes / 60).toFixed(2);
+
+    // Konversi ke format jam:menit
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    output += `${worker}:\n`;
+    output += `  - ${totalMinutes} menit\n`;
+    output += `  - ${hoursDecimal} jam (desimal)\n`;
+    output += `  - ${hours} jam ${minutes} menit\n\n`;
+  }
+
+  document.getElementById('output').textContent = output;
+}
+  </script>
+</body>
+</html>
