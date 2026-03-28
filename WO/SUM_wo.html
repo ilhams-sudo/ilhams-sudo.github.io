@@ -66,7 +66,6 @@
 <input type="file" id="fileInput" accept=".xlsx">
 
 <h3>Filter Worker</h3>
-<input type="text" id="searchWorker" placeholder="Cari worker...">
 <div class="checkbox-controls">
   <button onclick="toggleAll(true)">Select All</button>
   <button onclick="toggleAll(false)">Deselect All</button>
@@ -91,7 +90,6 @@
 let globalResults = {};
 
 document.getElementById('fileInput').addEventListener('change', handleFile);
-document.getElementById('searchWorker').addEventListener('input', renderAll);
 document.getElementById('startDate').addEventListener('change', renderAll);
 document.getElementById('endDate').addEventListener('change', renderAll);
 
@@ -173,10 +171,8 @@ function renderAll(){
       return {name,dates:filteredDates,total};
     });
 
-  // sort chart by total
   chartData.sort((a,b)=>b.total-a.total);
 
-  // render table
   workers.forEach(w=>{
     const tr=document.createElement('tr');
     const totalJam=(w.total/60).toFixed(2);
